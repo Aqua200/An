@@ -5,7 +5,7 @@ import { xpRange } from '../lib/levelling.js'
 
 let tags = {
   'main': 'Info 📚',
-  'search': 'Busquedas 🔎',
+  'search': 'Búsquedas 🔎',
   'game': 'Juegos 🎮',
   'rpg': 'RPG 🌠',
   'rg': 'Registro 📁',
@@ -27,27 +27,32 @@ let tags = {
 
 const defaultMenu = {
   before: `
-_*BIENVENIDO QUERIDO USUARIO!*_
+⛩️🍃🌸⛩️🍃🌸⛩️🍃🌸⛩️🍃🌸⛩️
 
-“ _*HOLA *%name*, ESTE ES EL MENU DE ONYX BOT*_ "
+          いらっしゃいませ！
+  *Bienvenido, %name*!
 
-_*EN QUE PUEDO SERVIRTE!*_! ”
+🔹 Este es el menú de *ONYX BOT* 🔹
 
-╭──⬣「 *Info User* 」⬣
-│  ≡◦ *👻 Nombre ∙* %name
+⛩️🍃🌸⛩️🍃🌸⛩️🍃🌸⛩️🍃🌸⛩️
+
+╭───⬣「 *Información del Usuario* 」⬣
+│  ≡◦ *👤 Nombre ∙* %name
 │  ≡◦ *🍬 Dulces ∙* %limit
-│  ≡◦ *😼 XP ∙* %totalexp
-│  ≡◦ *💫 Nivel ∙* %level
+│  ≡◦ *📈 XP ∙* %totalexp
+│  ≡◦ *🌟 Nivel ∙* %level
 ╰──⬣
 %readmore
-*╰──⬣╰──⬣╰──⬣╰──⬣╰──⬣╰──⬣*
+⛩️🍃🌸⛩️🍃🌸⛩️🍃🌸⛩️🍃🌸⛩️
 
-\t\t\t*L I S T A  -  M E N Ú S*
+╔═════════════════╗
+║       M E N Ú       ║
+╚═════════════════╝
 `.trimStart(),
-header: '╭──⚔️「 *%category* 」⚡',
-body: '│  👑◦ *%cmd*\n',
-footer: '╰──⚔️\n',
-after: '',
+  header: '╭──⚔️「 *%category* 」⚡',
+  body: '│  🍣◦ *%cmd*\n',
+  footer: '╰──⚔️\n',
+  after: '⛩️🍃🌸⛩️🍃🌸⛩️🍃🌸⛩️🍃🌸⛩️',
 }
 
 let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
