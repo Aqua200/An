@@ -35,7 +35,7 @@ npm start
 
 
 
-el bot como tal esta echo para soportar termux
+el bot como tal esta echo para soportar termux por lo tanto para actualizar los archivos dentro de termux es este comando
 
 ```update archivos de termux
 git pull origin main
