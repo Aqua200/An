@@ -3,17 +3,22 @@ import yts from 'yt-search';
 
 let handler = async (m, { conn, text, args }) => {
     if (!text) {
-        return m.reply("❀ ingresa un texto de lo que quieres buscar");
+        return m.reply("❀ Ingrese un texto de lo que quieres buscar");
     }
 
     let ytres = await search(args.join(" "));
     if (ytres.length === 0) return m.reply("❀ No se encontraron resultados");
 
-    let txt = `- *Título* : ${ytres[0].title}
-- *Duración* : ${ytres[0].timestamp}
-- *Publicado* : ${ytres[0].ago}
-- *Canal* : ${ytres[0].author.name || 'Desconocido'}
-- *Url* : ${'https://youtu.be/' + ytres[0].videoId}`;
+    let txt = `
+╔═════════════════════════
+║ 🎬 *Resultado de la búsqueda* 🎬
+╠═════════════════════════
+║ - *Título* : ${ytres[0].title}
+║ - *Duración* : ${ytres[0].timestamp}
+║ - *Publicado* : ${ytres[0].ago}
+║ - *Canal* : ${ytres[0].author.name || 'Desconocido'}
+║ - *Url* : ${'https://youtu.be/' + ytres[0].videoId}
+╚═════════════════════════`;
     await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m);
 
     try {
