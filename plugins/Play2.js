@@ -22,7 +22,7 @@ let handler = async (m, { conn, text, args }) => {
     await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m);
 
     try {
-        let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=${ytres[0].url}`);
+        let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=https://youtu.be/${ytres[0].videoId}`);
         let json = await api.json();
         if (json.result && json.result.download_url) {
             let { title, download_url } = json.result;
