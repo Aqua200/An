@@ -10,8 +10,8 @@ import moment from 'moment-timezone'
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.owner = [
-  ['593985327644', '@Onyx', true],
-  ['593979133620', '@𝚂𝚒𝚜𝚔𝚎𝚍', true],
+  ['', 'Neykoor', true],
+  ['', '', true],
 ]
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
@@ -21,13 +21,13 @@ global.prems = []
    
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.packname = `𝙊𝙉𝙔𝙓 𝘽𝙊𝙏`
-global.author = '𝙊𝙉𝙔𝙓 𝘽𝙊𝙏'
-global.wait = '𝙊𝙉𝙔𝙓 𝘽𝙊𝙏'
-global.botname = '𝙊𝙉𝙔𝙓 𝘽𝙊𝙏'
-global.textbot = `𝙊𝙉𝙔𝙓 𝘽𝙊𝙏 𝘼 𝙏𝙐𝙎 𝙊𝙍𝘿𝙀𝙉𝙀𝙎`
-global.listo = '𝙊𝙉𝙔𝙓 𝘽𝙊𝙏  𝙏𝙊𝘿𝙊 𝙇𝙄𝙎𝙏𝙊!'
-global.namechannel = '「  𝑺𝑰𝑺𝑲𝑬𝑫 - 𝑪𝑯𝑨𝑵𝑬𝑳  」'
+global.packname = `⛩️Anika✨`
+global.author = '⛩️Anika✨'
+global.wait = '⛩️Anika✨'
+global.botname = '⛩️Anika✨'
+global.textbot = `⛩️Anika para servirle✨`
+global.listo = '⛩️Anika todo listo✨'
+global.namechannel = '⛩️Anika✨'
 global.baileys = '@whiskeysockets/baileys'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
@@ -37,8 +37,8 @@ global.siskedurl = fs.readFileSync('./storage/img/siskedurl.jpg')
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.group = 'https://chat.whatsapp.com/CTaspTXla9T1zA83m6ZKPe'
-global.canal = 'https://whatsapp.com/channel/0029Vak6H9l3GJP4FJH5063R'
+global.group = 'https://chat.whatsapp.com/KGdftYYFrbVBzTpZE73LBI'
+global.canal = 'https://whatsapp.com/channel/0029Vb3uTsb90x2rvI6D3G3b'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
