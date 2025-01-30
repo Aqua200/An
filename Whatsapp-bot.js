@@ -231,23 +231,26 @@ console.log(chalk.bold.red(`Algo salio mal durante la eliminación, archivos no 
 }}
 
 function purgeOldFiles() {
-const directories = ['./sessions/', './serbot/']
-const oneHourAgo = Date.now() - (60 * 60 * 1000)
-directories.forEach(dir => {
-readdirSync(dir, (err, files) => {
-if (err) throw err
-files.forEach(file => {
-const filePath = path.join(dir, file)
-stat(filePath, (err, stats) => {
-if (err) throw err;
-if (stats.isFile() && stats.mtimeMs < oneHourAgo && file !== 'creds.json') { 
-unlinkSync(filePath, err => {  
-if (err) throw err
-console.log(chalk.bold.green(`Archivo ${file} borrado con éxito`))
-})
-} else {  
-console.log(chalk.bold.red(`Archivo ${file} no borrado` + err))
-} }) }) }) })
+  const directories = ['./sessions/', './serbot/'];
+  const oneHourAgo = Date.now() - (60 * 60 * 1000);
+  directories.forEach(dir => {
+    if (existsSync(dir)) {
+      readdirSync(dir).forEach(file => {
+        const filePath = path.join(dir, file);
+        const stats = statSync(filePath);
+        if (stats.isFile() && stats.mtimeMs < oneHourAgo && file !== 'creds.json') {
+          try {
+            unlinkSync(filePath);
+            console.log(chalk.green(`Archivo ${file} borrado con éxito.`));
+          } catch (err) {
+            console.log(chalk.red(`Error al borrar el archivo ${file}: ${err.message}`));
+          }
+        }
+      });
+    } else {
+      console.log(chalk.yellow(`Advertencia: El directorio ${dir} no existe.`));
+    }
+  });
 }
 
 async function connectionUpdate(update) {
