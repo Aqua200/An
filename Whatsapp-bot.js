@@ -177,10 +177,23 @@ if (opts['server']) (await import('./server.js')).default(global.conn, PORT);
 function clearTmp() {
   const tmp = [join(__dirname, './tmp')];
   const filename = [];
-  tmp.forEach((dirname) => readdirSync(dirname).forEach((file) => filename.push(join(dirname, file))));
+  tmp.forEach((dirname) => {
+    if (existsSync(dirname)) {
+      readdirSync(dirname).forEach((file) => filename.push(join(dirname, file)));
+    } else {
+      console.log(chalk.yellow(`Advertencia: El directorio ${dirname} no existe.`));
+    }
+  });
   return filename.map((file) => {
     const stats = statSync(file);
-    if (stats.isFile() && (Date.now() - stats.mtimeMs >= 1000 * 60 * 3)) return unlinkSync(file); // 3 minutes
+    if (stats.isFile() && (Date.now() - stats.mtimeMs >= 1000 * 60 * 3)) {
+      try {
+        unlinkSync(file);
+        console.log(chalk.green(`Archivo ${file} borrado con éxito.`));
+      } catch (err) {
+        console.log(chalk.red(`Error al borrar el archivo ${file}: ${err.message}`));
+      }
+    }
     return false;
   });
 }
