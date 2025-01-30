@@ -418,12 +418,12 @@ global.plugins = {}
 async function filesInit() {
   for (const filename of readdirSync(pluginFolder).filter(pluginFilter)) {
     try {
-      const file = global.__filename(join(pluginFolder, filename))
-      const module = await import(file)
-      global.plugins[filename] = module.default || module
+      const file = global.__filename(join(pluginFolder, filename));
+      const module = await import(file);
+      global.plugins[filename] = module.default || module;
     } catch (e) {
-      conn.logger.error(e)
-      delete global.plugins[filename]
+      conn.logger.error(e);
+      delete global.plugins[filename];
     }
   }
 }
