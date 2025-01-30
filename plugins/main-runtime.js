@@ -1,5 +1,5 @@
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-    
+
     let _muptime = 0;
     if (process.send) {
         process.send('uptime');
