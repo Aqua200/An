@@ -29,6 +29,14 @@ import threading
 import timeit
 import xml.parsers.expat
 
+def printer(string, quiet=False, debug=False, error=False, **kwargs):
+      if debug and not DEBUG:
+          return
+      if error:
+          kwargs['file'] = sys.stderr
+      if not quiet:
+          print_(string, **kwargs)
+
 try:
     import gzip
     GZIP_BASE = gzip.GzipFile
