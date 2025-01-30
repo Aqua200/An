@@ -506,17 +506,31 @@ setInterval(async () => {
 }, 1000 * 60 * 60);
 _quickTest().catch(console.error)
 
+const { PhoneNumberUtil } = require('google-libphonenumber');
+const phoneUtil = PhoneNumberUtil.getInstance();
+
 async function isValidPhoneNumber(number) {
-try {
-number = number.replace(/\s+/g, '')
-// Si el número empieza con '+521' o '+52 1', quitar el '1'
-if (number.startsWith('+521')) {
-number = number.replace('+521', '+52'); // Cambiar +521 a +52
-} else if (number.startsWith('+52') && number[4] === '1') {
-number = number.replace('+52 1', '+52'); // Cambiar +52 1 a +52
+  try {
+    // Eliminar todos los espacios
+    number = number.replace(/\s+/g, '');
+
+    // Si el número empieza con '+521', quitar el '1'
+    if (number.startsWith('+521')) {
+      number = number.replace('+521', '+52');
+    } else if (number.startsWith('+52') && number[3] === '1') {
+      number = number.replace('+521', '+52');
+    }
+
+    // Parsear y validar el número
+    const parsedNumber = phoneUtil.parseAndKeepRawInput(number);
+    return phoneUtil.isValidNumber(parsedNumber);
+  } catch (error) {
+    console.error(`Error al validar el número de teléfono: ${error.message}`);
+    return false;
+  }
 }
-const parsedNumber = phoneUtil.parseAndKeepRawInput(number)
-return phoneUtil.isValidNumber(parsedNumber)
-} catch (error) {
-return false
-}}
+
+// Ejemplo de uso
+isValidPhoneNumber('+521234567890').then(valid => {
+  console.log(valid ? 'Número válido' : 'Número inválido');
+});
