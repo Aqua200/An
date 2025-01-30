@@ -84,29 +84,29 @@ export async function before(m, { conn, participants, groupMetadata }) {
   const username = m.messageStubParameters[0].split`@`[0];
   const group = groupMetadata.subject;
 
-  console.log(`Event triggered: ${mmessageStubType} for ${username}in ${group}`);
+  console.log(`Event triggered: ${m.messageStubType} for ${username} in ${group}`);
   
-  // Mensaje de bienvenida
   if (chat.bienvenida && m.messageStubType == WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     const bienvenida = getRandomMessage(WELCOME_MESSAGES, username, group);
     await conn.sendMessage(m.chat, { text: bienvenida, mentions: [m.messageStubParameters[0]] });
   }
 
-  // Mensaje de despedida
   if (chat.bienvenida && m.messageStubType == WAMessageStubType.GROUP_PARTICIPANT_LEAVE) {
     const bye = getRandomMessage(GOODBYE_MESSAGES, username, group);
     await conn.sendMessage(m.chat, { text: bye, mentions: [m.messageStubParameters[0]] });
   }
 
-  // Mensaje de expulsión
   if (chat.bienvenida && m.messageStubType == WAMessageStubType.GROUP_PARTICIPANT_REMOVE) {
     const kick = getRandomMessage(KICK_MESSAGES, username, group);
     await conn.sendMessage(m.chat, { text: kick, mentions: [m.messageStubParameters[0]] });
   }
 
-  // Mensaje de solicitud de unión
-  if (chat.bienvenida && m.messageStubType == 172) { // Assuming 172 is the stub type for join approval requests
+  if (chat.bienvenida && m.messageStubType == 172) {
     const joinApproval = getRandomMessage(JOIN_APPROVAL_MESSAGES, username, group);
     await conn.sendMessage(m.chat, { text: joinApproval, mentions: [m.messageStubParameters[0]] });
   }
 }
+  
+  
+
+  
