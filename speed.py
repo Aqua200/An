@@ -849,23 +849,16 @@ class HTTPUploaderData(object):
         self._data = None
 
         self.total = [0]
-
-    def pre_allocate(self):
+     def pre_allocate(self):
+    try:
         chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         multiplier = int(round(int(self.length) / 36.0))
         IO = BytesIO or StringIO
-        try:
-            self._data = IO(
-                ('content1=%s' %
-                 (chars * multiplier)[0:int(self.length) - 9]
-                 ).encode()
-            )
-        except MemoryError:
-            raise SpeedtestCLIError(
-                'Insufficient memory to pre-allocate upload data. Please '
-                'use --no-pre-allocate'
-            )
-
+        self._data = IO(('content1=%s' % (chars * multiplier)[0:int(self.length) - 9]).encode())
+    except MemoryError:
+        printer('Error: Memoria insuficiente para pre-asignar datos de subida.', error=True)
+        raise SpeedtestCLIError('Memoria insuficiente para pre-asignar datos de subida.')
+        )
     @property
     def data(self):
         if not self._data:
