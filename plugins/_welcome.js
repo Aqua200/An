@@ -105,8 +105,12 @@ export async function before(m, { conn, participants, groupMetadata }) {
     const joinApproval = getRandomMessage(JOIN_APPROVAL_MESSAGES, username, group);
     await conn.sendMessage(m.chat, { text: joinApproval, mentions: [m.messageStubParameters[0]] });
   }
+
+  // Handling messageStubType 2
+  if (m.messageStubType == 2) {
+    console.log(`Special event: ${m.messageStubParameters[0]} in ${group}`);
+    // Add any specific handling code here if needed
+  }
 }
-  
-  
 
   
