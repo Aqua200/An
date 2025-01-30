@@ -1,20 +1,22 @@
 let handler = async (m, { conn, args, usedPrefix, command }) => {
+    try {
+        // Obtener el tiempo de actividad del proceso en milisegundos
+        let _muptime = process.uptime() * 1000;
+        let muptime = formatUptime(_muptime);
 
-    let _muptime = 0;
-    if (process.send) {
-        process.send('uptime');
-        _muptime = await new Promise(resolve => {
-            process.once('message', resolve);
-            setTimeout(() => resolve(0), 1000); // Resuelve con 0 si no se recibe un mensaje en 1 segundo
-        }) * 1000;
+        // Obtener la hora actual
+        let currentTime = new Date();
+        let formattedTime = formatTime(currentTime);
+
+        // Crear el mensaje
+        let message = `*🌹 He estado activa durante:* ${muptime}\n*🕒 Hora actual:* ${formattedTime}`;
+
+        // Enviar el mensaje
+        await conn.reply(m.chat, message, m);
+    } catch (error) {
+        console.error("Error en el handler:", error);
+        conn.reply(m.chat, "❌ Ocurrió un error al procesar la solicitud.", m);
     }
-    let muptime = formatUptime(_muptime);
-
-    let currentTime = new Date();
-    let formattedTime = formatTime(currentTime);
-
-    let message = `*🌹 He estado activa durante :* ${muptime}\n*🕒 Hora actual:* ${formattedTime}`;
-    conn.reply(m.chat, message, m);
 };
 
 handler.help = ['runtime'];
@@ -33,7 +35,7 @@ function formatUptime(ms) {
 
 function formatTime(date) {
     let day = date.getDate().toString().padStart(2, '0');
-    let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+    let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Los meses son base 0
     let year = date.getFullYear();
     let hours = date.getHours().toString().padStart(2, '0');
     let minutes = date.getMinutes().toString().padStart(2, '0');
