@@ -400,6 +400,14 @@ async function _quickTest() {
   const [ffmpeg, ffprobe, ffmpegWebp, convert, magick, gm, find] = test;
   const s = global.support = {ffmpeg, ffprobe, ffmpegWebp, convert, magick, gm, find};
   Object.freeze(global.support);
+
+  // Verificar si las herramientas están disponibles en Termux
+  if (!ffmpeg || !ffprobe) {
+    console.log(chalk.yellow('Advertencia: ffmpeg o ffprobe no están instalados. Algunas funciones pueden no estar disponibles.'));
+  }
+  if (!convert && !magick && !gm) {
+    console.log(chalk.yellow('Advertencia: ImageMagick o GraphicsMagick no están instalados. Algunas funciones de manipulación de imágenes pueden no estar disponibles.'));
+  }
 }
 setInterval(async () => {
   if (stopped === 'close' || !conn || !conn.user) return
