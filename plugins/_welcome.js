@@ -84,6 +84,8 @@ export async function before(m, { conn, participants, groupMetadata }) {
   const username = m.messageStubParameters[0].split`@`[0];
   const group = groupMetadata.subject;
 
+  console.log(`Event triggered: ${mmessageStubType} for ${username}in ${group}`);
+  
   // Mensaje de bienvenida
   if (chat.bienvenida && m.messageStubType == WAMessageStubType.GROUP_PARTICIPANT_ADD) {
     const bienvenida = getRandomMessage(WELCOME_MESSAGES, username, group);
