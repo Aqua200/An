@@ -301,7 +301,18 @@ if (connection === 'close') {
 }
 }
 
-process.on('uncaughtException', console.error)
+process.on('uncaughtException', (err) => {
+  console.error(chalk.red(`Error no manejado: ${err.message}`));
+  console.error(chalk.red(`Stack trace: ${err.stack}`));
+  console.log(chalk.yellow('Reiniciando el bot...'));
+  global.reloadHandler(true).catch(console.error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error(chalk.red('Unhandled Rejection at:', promise, 'reason:', reason));
+  console.log(chalk.yellow('Reiniciando el bot...'));
+  global.reloadHandler(true).catch(console.error);
+});
 
 let isInit = true;
 let handler = await import('./handler.js')
