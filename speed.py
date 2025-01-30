@@ -35,6 +35,7 @@ try:
 except ImportError:
     gzip = None
     GZIP_BASE = object
+    printer('Advertencia: gzip no está disponible. Las respuestas comprimidas no serán soportadas.', error=True)
 
 __version__ = '2.1.4b1'
 
