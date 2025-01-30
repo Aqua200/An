@@ -252,16 +252,56 @@ function purgeOldFiles() {
     }
   });
 }
-
 async function connectionUpdate(update) {
   const {connection, lastDisconnect, isNewLogin} = update;
   global.stopped = connection;
   if (isNewLogin) conn.isInit = true;
   const code = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
   if (code && code !== DisconnectReason.loggedOut && conn?.ws.socket == null) {
+    console.log(chalk.yellow('Reconectando...'));
     await global.reloadHandler(true).catch(console.error);
     global.timestamp.connect = new Date;
   }
+  if (global.db.data == null) loadDatabase();
+  if (update.qr != 0 && update.qr != undefined || methodCodeQR) {
+    if (opcion == '1' || methodCodeQR) {
+      console.log(chalk.yellow('Escanea el código QR.'));
+    }
+  }
+  if (connection == 'open') {
+    console.log(chalk.yellow('Conectado correctamente.'));
+  }
+  let reason = new Boom(lastDisconnect?.error)?.output?.statusCode;
+  if (reason == 405) {
+    await fs.unlinkSync("./sessions/" + "creds.json");
+    console.log(chalk.bold.redBright(`Conexión replazada, Por favor espere un momento me voy a reiniciar...\nSi aparecen error vuelve a iniciar con : npm start`));
+    process.send('reset');
+  }
+  if (connection === 'close') {
+    if (reason === DisconnectReason.badSession) {
+      conn.logger.error(`Sesión incorrecta, por favor elimina la carpeta ${global.authFile} y escanea nuevamente.`);
+    } else if (reason === DisconnectReason.connectionClosed) {
+      conn.logger.warn(`Conexión cerrada, reconectando...`);
+      await global.reloadHandler(true).catch(console.error);
+    } else if (reason === DisconnectReason.connectionLost) {
+      conn.logger.warn(`Conexión perdida con el servidor, reconectando...`);
+      await global.reloadHandler(true).catch(console.error);
+    } else if (reason === DisconnectReason.connectionReplaced) {
+      conn.logger.error(`Conexión reemplazada, se ha abierto otra nueva sesión. Por favor, cierra la sesión actual primero.`);
+    } else if (reason === DisconnectReason.loggedOut) {
+      conn.logger.error(`Conexion cerrada, por favor elimina la carpeta ${global.authFile} y escanea nuevamente.`);
+    } else if (reason === DisconnectReason.restartRequired) {
+      conn.logger.info(`Reinicio necesario, reinicie el servidor si presenta algún problema.`);
+      await global.reloadHandler(true).catch(console.error);
+    } else if (reason === DisconnectReason.timedOut) {
+      conn.logger.warn(`Tiempo de conexión agotado, reconectando...`);
+      await global.reloadHandler(true).catch(console.error);
+    } else {
+      conn.logger.warn(`Razón de desconexión desconocida. ${reason || ''}: ${connection || ''}`);
+      await global.reloadHandler(true).catch(console.error);
+    }
+  }
+}
   if (global.db.data == null) loadDatabase();
 if (update.qr != 0 && update.qr != undefined || methodCodeQR) {
 if (opcion == '1' || methodCodeQR) {
