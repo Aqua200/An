@@ -11,6 +11,9 @@
     "plugins": "plugins"
   },
   "scripts": {
+  "start": "node index.js",
+  "dev": "nodemon --exec node index.js"
+  }
     "start": "node index.js",
     "qr": "node index.js qr",
     "code": "node index.js code",
