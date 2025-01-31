@@ -28,7 +28,7 @@ global.author = '🌸Anika✧🌙';
 global.wait = '🌸Anika✧🌙';
 global.botname = '🌸Anika✧🌙';
 global.textbot = 'Estoy aquí para servirte 💁‍♀️✨';
-global.listo = '⛩️Anika todo listo✨';
+global.listo = '¿Qué más puedo hacer por ti? 😊💖';
 global.namechannel = '🌸Anika✧🌙';
 global.baileys = '@whiskeysockets/baileys';
 
