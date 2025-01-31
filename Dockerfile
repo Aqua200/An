@@ -1,22 +1,28 @@
 #!/bin/bash
 
-echo "🔄 Actualizando paquetes..."
-apt update -y && apt upgrade -y
+echo "🔄 Actualizando paquetes en Termux..."
+termux-change-repo
+pkg update -y && pkg upgrade -y
 
-echo "📦 Instalando dependencias del sistema..."
-apt install -y nodejs ffmpeg imagemagick webp git
+echo "📦 Instalando dependencias necesarias..."
+pkg install -y nodejs-lts ffmpeg imagemagick webp git || { echo "❌ Error al instalar paquetes."; exit 1; }
 
-# Verificar si Node.js y npm están instalados
-if ! command -v node &> /dev/null || ! command -v npm &> /dev/null; then
-    echo "❌ Error: Node.js o npm no están instalados correctamente."
-    exit 1
-fi
+# Verificar si las dependencias están correctamente instaladas
+for cmd in node npm ffmpeg convert git; do
+    if ! command -v $cmd &> /dev/null; then
+        echo "❌ Error: $cmd no está instalado correctamente."
+        exit 1
+    fi
+done
 
-# Clonar el repositorio si es necesario (descomentar y reemplazar con tu URL)
+# Bloqueo para evitar que el proceso se detenga al apagar la pantalla
+termux-wake-lock
+
+# Clonar el repositorio si es necesario
 # git clone <URL_DEL_REPOSITORIO>
 # cd <NOMBRE_DEL_REPOSITORIO>
 
-# Si los archivos ya están en Termux, navega al directorio del proyecto
+# Si los archivos ya están en Termux, navegar al directorio del proyecto
 # cd /ruta/a/tu/proyecto
 
 echo "📂 Verificando archivos del proyecto..."
