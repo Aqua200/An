@@ -23,13 +23,13 @@ global.prems = [];
 
 //*─────────────────────────────────────────────────────────────────*
 
-global.packname = '⛩️Anika✨';
-global.author = '⛩️Anika✨';
-global.wait = '⛩️Anika✨';
-global.botname = '⛩️Anika✨';
-global.textbot = '⛩️Anika para servirle✨';
+global.packname = '🌸Anika✧🌙';
+global.author = '🌸Anika✧🌙';
+global.wait = '🌸Anika✧🌙';
+global.botname = '🌸Anika✧🌙';
+global.textbot = '⛩️ para servirle✨';
 global.listo = '⛩️Anika todo listo✨';
-global.namechannel = '⛩️Anika✨';
+global.namechannel = '🌸Anika✧🌙';
 global.baileys = '@whiskeysockets/baileys';
 
 //*─────────────────────────────────────────────────────────────────*
