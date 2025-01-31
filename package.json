@@ -34,8 +34,12 @@
     "url": "https://github.com/Aqua200/An/issues"
   },
   "license": "GPL-3.0-or-later",
+  {
   "dependencies": {
-    "@StarlightsTeam/Scraper": "github:StarlightsTeam/StarlightsTeamScraper",
+    "express": "^4.18.2",
+    "axios": "^1.6.0"
+  }
+}
     "@adiwajshing/keyed-db": "^0.2.4",
     "@bochilteam/scraper": "^4.2.4",
     "@bochilteam/scraper-sosmed": "^1.0.5",
