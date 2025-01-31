@@ -21,7 +21,6 @@
     "test2": "nodemon index.js", 
     "eslint": "eslint .",
     "eslintfix": "eslint --fix ."
-  },
   "homepage": "https://github.com/Aqua200/An",
   "author": {
     "name": "Aqua200"
