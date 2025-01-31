@@ -335,16 +335,14 @@ global.reloadHandler = async function(restatConn) {
     console.error(e);
   }
   if (restatConn) {
-    const oldChats = global.conn.chats
-    try {
-      global.conn.ws.close()
-    } catch { }
-    conn.ev.removeAllListeners()
-    global.conn = makeWASocket(connectionOptions, {chats: oldChats})
-    isInit = true
-  }
+  const oldChats = global.conn.chats;
+  try {
+    global.conn.ws.close();
+  } catch { }  // Este bloque catch está vacío, pero es válido
+  conn.ev.removeAllListeners();
+  global.conn = makeWASocket(connectionOptions, { chats: oldChats });
+  isInit = true;
 }
-
 const pluginFolder = global.__dirname(join(__dirname, './plugins/index'))
 const pluginFilter = (filename) => /\.js$/.test(filename)
 global.plugins = {}
