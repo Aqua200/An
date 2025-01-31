@@ -1,45 +1,39 @@
 #!/bin/bash
 
-# Función para manejar errores
-handle_error() {
-    echo "Error: $1"
+echo "🔄 Actualizando paquetes..."
+apt update -y && apt upgrade -y
+
+echo "📦 Instalando dependencias del sistema..."
+apt install -y nodejs ffmpeg imagemagick webp git
+
+# Verificar si Node.js y npm están instalados
+if ! command -v node &> /dev/null || ! command -v npm &> /dev/null; then
+    echo "❌ Error: Node.js o npm no están instalados correctamente."
     exit 1
-}
+fi
 
-# Actualizar paquetes e instalar dependencias del sistema
-echo "Actualizando paquetes e instalando dependencias del sistema..."
-pkg update -y || handle_error "Falló la actualización de paquetes."
-pkg install -y nodejs ffmpeg imagemagick webp || handle_error "Falló la instalación de dependencias."
+# Clonar el repositorio si es necesario (descomentar y reemplazar con tu URL)
+# git clone <URL_DEL_REPOSITORIO>
+# cd <NOMBRE_DEL_REPOSITORIO>
 
-# Verificar si Node.js y npm están instalados correctamente
-echo "Verificando la instalación de Node.js y npm..."
-node -v || handle_error "Node.js no está instalado correctamente."
-npm -v || handle_error "npm no está instalado correctamente."
+# Si los archivos ya están en Termux, navega al directorio del proyecto
+# cd /ruta/a/tu/proyecto
 
-# Verificar si el archivo package.json existe
+echo "📂 Verificando archivos del proyecto..."
 if [ ! -f "package.json" ]; then
-    handle_error "No se encontró el archivo package.json."
+    echo "❌ Error: No se encontró 'package.json'. Asegúrate de estar en la carpeta correcta."
+    exit 1
 fi
 
-# Instalar dependencias de Node.js
-echo "Instalando dependencias de Node.js..."
-npm install || handle_error "Falló la instalación de dependencias de Node.js."
-npm install qrcode-terminal || handle_error "Falló la instalación de qrcode-terminal."
+echo "📦 Instalando dependencias de Node.js..."
+npm install
+npm install qrcode-terminal
 
-# Verificar si qrcode-terminal está instalado correctamente
-echo "Verificando la instalación de qrcode-terminal..."
-if ! npm list qrcode-terminal | grep -q "qrcode-terminal"; then
-    handle_error "qrcode-terminal no está instalado correctamente."
-fi
-
-# Verificar si el archivo index.js existe
+echo "🔍 Verificando 'index.js'..."
 if [ ! -f "index.js" ]; then
-    handle_error "No se encontró el archivo index.js."
+    echo "❌ Error: No se encontró 'index.js'."
+    exit 1
 fi
 
-# Exponer el puerto 5000 (no es necesario en Termux, pero puedes usarlo)
-echo "La aplicación estará disponible en el puerto 5000."
-
-# Ejecutar la aplicación
-echo "Iniciando la aplicación..."
-node index.js --server || handle_error "Falló al ejecutar la aplicación."
+echo "🚀 Iniciando la aplicación en el puerto 5000..."
+node index.js --server
