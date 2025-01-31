@@ -35,7 +35,8 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@SumiFX/Scraper": "github:SumiFX/SumiFX-Scraper",
+  "@StarlightsTeam/Scraper": "github:StarlightsTeam/StarlightsTeam-Scraper"
+  }
     "@StarlightsTeam/Scraper": "github:StarlightsTeam/StarlightsTeam-Scraper",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@bochilteam/scraper": "^4.2.4",
