@@ -11,16 +11,15 @@
     "plugins": "plugins"
   },
   "scripts": {
-  "start": "node index.js",
-  "dev": "nodemon --exec node index.js"
-  }
     "start": "node index.js",
+    "dev": "nodemon --exec node index.js",
     "qr": "node index.js qr",
     "code": "node index.js code",
     "test": "node test.js",
-    "test2": "nodemon index.js", 
+    "test2": "nodemon index.js",
     "eslint": "eslint .",
     "eslintfix": "eslint --fix ."
+  },
   "homepage": "https://github.com/Aqua200/An",
   "author": {
     "name": "Aqua200"
