@@ -240,20 +240,23 @@ function purgeOldFiles() {
   const directories = ['./sessions/', './serbot/'];
   const oneHourAgo = Date.now() - (60 * 60 * 1000);
   directories.forEach(dir => {
-    if (existsSync(dir)) {
-      readdirSync(dir).forEach(file => {
-        const filePath = path.join(dir, file);
-        const stats = statSync(filePath);
-        if (stats.isFile() && stats.mtimeMs < oneHourAgo && file !== 'creds.json') {
-          try {
-            unlinkSync(filePath);
-            console.log(chalk.green(`Archivo ${file} borrado con éxito.`));
-          } catch (err) {
-            console.log(chalk.red(`Error al borrar el archivo ${file}: ${err.message}`));
-          }
+    // Después
+if (existsSync(dir)) {
+  readdirSync(dir).forEach(file => {
+    const filePath = path.join(dir, file);
+    if (existsSync(filePath)) { // Verificar si el archivo existe antes de intentar borrarlo
+      const stats = statSync(filePath);
+      if (stats.isFile() && stats.mtimeMs < oneHourAgo && file !== 'creds.json') {
+        try {
+          unlinkSync(filePath);
+          console.log(chalk.green(`Archivo ${file} borrado con éxito.`));
+        } catch (err) {
+          console.log(chalk.red(`Error al borrar el archivo ${file}: ${err.message}`));
         }
-      });
-    } else {
+      }
+    }
+  });
+ } else {
       console.log(chalk.yellow(`Advertencia: El directorio ${dir} no existe.`));
     }
   });
