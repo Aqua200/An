@@ -1,4 +1,4 @@
-console.log('@Sisked ☆')
+console.log('@Aqua200☆')
 
 import { join, dirname } from 'path'
 import { createRequire } from 'module';
