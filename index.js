@@ -1,55 +1,61 @@
-console.log('@Aqua200☆')
+console.log('@Aqua200☆');
 
-import { join, dirname } from 'path'
+import { join, dirname } from 'path';
 import { createRequire } from 'module';
-import { fileURLToPath } from 'url'
-import { setupMaster, fork } from 'cluster'
-import { watchFile, unwatchFile } from 'fs'
+import { fileURLToPath } from 'url';
+import { setupMaster, fork } from 'cluster';
+import { watchFile, unwatchFile } from 'fs';
 import cfonts from 'cfonts';
-import { createInterface } from 'readline'
-import yargs from 'yargs'
-import express from 'express'
-import chalk from 'chalk'
-import path from 'path'
-import os from 'os'
-import { promises as fsPromises } from 'fs'
+import { createInterface } from 'readline';
+import yargs from 'yargs';
+import express from 'express';
+import chalk from 'chalk';
+import path from 'path';
+import os from 'os';
+import { promises as fsPromises } from 'fs';
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const require = createRequire(__dirname)
-const { say } = cfonts
-const rl = createInterface(process.stdin, process.stdout)
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const require = createRequire(__dirname);
+const { say } = cfonts;
+const rl = createInterface(process.stdin, process.stdout);
 
-const app = express()
+const app = express();
 const port = process.env.PORT || 8080;
 
+// Configuración de colores morados y púrpuras
 say('Anika\nBot', {
-font: 'chrome',
-align: 'center',
-gradient: ['red', 'magenta']})
+  font: 'chrome',
+  align: 'center',
+  gradient: ['#800080', '#9400D3'], // Morado y púrpura
+  transitionGradient: true, // Mejora la transición de colores
+});
 
-var isRunning = false
+let isRunning = false;
 
 async function start(files) {
   if (isRunning) return;
   isRunning = true;
-  
+
   for (const file of files) {
     const currentFilePath = new URL(import.meta.url).pathname;
     let args = [join(__dirname, file), ...process.argv.slice(2)];
+
+    // Mostrar el comando ejecutado con colores morados
     say([process.argv[0], ...args].join(' '), {
       font: 'console',
       align: 'center',
-      gradient: ['red', 'magenta']
+      gradient: ['#800080', '#9400D3'], // Morado y púrpura
     });
-    
+
     setupMaster({
       exec: args[0],
       args: args.slice(1),
     });
-    
+
     let p = fork();
-    p.on('message', data => {
-      console.log('[RECEIVED]', data);
+
+    p.on('message', (data) => {
+      console.log(chalk.magenta('[RECEIVED]'), data);
       switch (data) {
         case 'reset':
           p.process.kill();
@@ -61,10 +67,10 @@ async function start(files) {
           break;
       }
     });
-    
+
     p.on('exit', (_, code) => {
       isRunning = false;
-      console.error('Ocurrió un error inesperado:', code)
+      console.error(chalk.red('Ocurrió un error inesperado:'), code);
       start(files);
 
       if (code === 0) return;
@@ -73,13 +79,23 @@ async function start(files) {
         start(files);
       });
     });
-    
+
     let opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse());
-    if (!opts['test'])
-      if (!rl.listenerCount()) rl.on('line', line => {
-        p.emit('message', line.trim());
-      });
+    if (!opts['test']) {
+      if (!rl.listenerCount()) {
+        rl.on('line', (line) => {
+          p.emit('message', line.trim());
+        });
+      }
+    }
   }
 }
 
-start(['Whatsapp-bot.js'])
+// Iniciar el bot
+start(['Whatsapp-bot.js']);
+
+// Manejo de cierre limpio
+process.on('SIGINT', () => {
+  console.log(chalk.yellow('\nDeteniendo el bot...'));
+  process.exit();
+});
