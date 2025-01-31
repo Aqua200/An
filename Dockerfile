@@ -16,10 +16,6 @@ echo "Verificando la instalación de Node.js y npm..."
 node -v || handle_error "Node.js no está instalado correctamente."
 npm -v || handle_error "npm no está instalado correctamente."
 
-# Navegar al directorio del proyecto (si es necesario)
-# Si ya tienes los archivos en Termux, simplemente navega al directorio del proyecto
-# cd /ruta/a/tu/proyecto
-
 # Verificar si el archivo package.json existe
 if [ ! -f "package.json" ]; then
     handle_error "No se encontró el archivo package.json."
@@ -29,6 +25,12 @@ fi
 echo "Instalando dependencias de Node.js..."
 npm install || handle_error "Falló la instalación de dependencias de Node.js."
 npm install qrcode-terminal || handle_error "Falló la instalación de qrcode-terminal."
+
+# Verificar si qrcode-terminal está instalado correctamente
+echo "Verificando la instalación de qrcode-terminal..."
+if ! npm list qrcode-terminal | grep -q "qrcode-terminal"; then
+    handle_error "qrcode-terminal no está instalado correctamente."
+fi
 
 # Verificar si el archivo index.js existe
 if [ ! -f "index.js" ]; then
