@@ -300,8 +300,6 @@ async function connectionUpdate(update) {
       conn.logger.warn(`Razón de desconexión desconocida. ${reason || ''}: ${connection || ''}`);
       await global.reloadHandler(true).catch(console.error);
     }
-  }
-}
   if (global.db.data == null) loadDatabase();
 if (update.qr != 0 && update.qr != undefined || methodCodeQR) {
 if (opcion == '1' || methodCodeQR) {
