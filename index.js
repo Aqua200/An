@@ -82,4 +82,4 @@ async function start(files) {
   }
 }
 
-start(['sisked.js'])
+start(['Whatsapp-bot.js'])
