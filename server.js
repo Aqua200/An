@@ -2,8 +2,60 @@ import express from 'express';
 import { createServer } from 'http';
 import { toBuffer } from 'qrcode';
 import fetch from 'node-fetch';
+import winston from 'winston';
 
-function connect(conn, PORT) {
+// Configuración de logging con Winston
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.printf(({ timestamp, level, message }) => {
+            return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+        })
+    ),
+    transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'server.log' })
+    ]
+});
+
+// Configuración dinámica desde variables de entorno
+const PORT = process.env.PORT || 3000;
+const KEEP_ALIVE_URL = process.env.KEEP_ALIVE_URL;
+
+// Función para generar el código QR
+async function generateQR(qr) {
+    try {
+        return await toBuffer(qr);
+    } catch (error) {
+        logger.error('Error al generar el código QR:', error);
+        throw new Error('Error al generar el código QR');
+    }
+}
+
+// Función para mantener el servidor activo
+function keepAlive(url) {
+    if (!url) {
+        logger.warn('No se proporcionó una URL para keepAlive.');
+        return;
+    }
+
+    // Verificar si la URL es válida
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        logger.warn('La URL proporcionada para keepAlive no es válida.');
+        return;
+    }
+
+    // Hacer una solicitud periódica para mantener el servidor activo
+    setInterval(() => {
+        fetch(url).catch((err) => {
+            logger.error('Error en keepAlive:', err);
+        });
+    }, 5 * 1000 * 60); // Cada 5 minutos
+}
+
+// Función principal para conectar y configurar el servidor
+function connect(conn) {
     let app = global.app = express();
     let server = global.server = createServer(app);
     let _qr = 'invalid';
@@ -13,48 +65,35 @@ function connect(conn, PORT) {
         if (qr) _qr = qr;
     });
 
-    // Ruta para servir el código QR como una imagen PNG
-    app.use(async (req, res) => {
+    // Ruta específica para servir el código QR como una imagen PNG
+    app.get('/qr', async (req, res) => {
         try {
+            const qrBuffer = await generateQR(_qr);
             res.setHeader('content-type', 'image/png');
-            res.end(await toBuffer(_qr));
+            res.end(qrBuffer);
         } catch (error) {
-            console.error('Error al generar el código QR:', error);
-            res.status(500).send('Error al generar el código QR');
+            logger.error(error.message);
+            res.status(500).send(error.message);
         }
     });
 
     // Iniciar el servidor en el puerto especificado
     server.listen(PORT, () => {
-        console.log('Servidor escuchando en el puerto', PORT);
+        logger.info(`Servidor escuchando en el puerto ${PORT}`);
     }).on('error', (err) => {
         if (err.code === 'EADDRINUSE') {
-            console.error(`El puerto ${PORT} ya está en uso.`);
+            logger.error(`El puerto ${PORT} ya está en uso.`);
         } else {
-            console.error('Error al iniciar el servidor:', err);
+            logger.error('Error al iniciar el servidor:', err);
         }
     });
-}
 
-// Función para mantener el servidor activo (opcional)
-function keepAlive(url) {
-    if (!url) {
-        console.warn('No se proporcionó una URL para keepAlive.');
-        return;
+    // Activar keepAlive si se proporciona una URL
+    if (KEEP_ALIVE_URL) {
+        keepAlive(KEEP_ALIVE_URL);
+    } else {
+        logger.warn('No se configuró una URL para keepAlive.');
     }
-
-    // Verificar si la URL es válida
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        console.warn('La URL proporcionada para keepAlive no es válida.');
-        return;
-    }
-
-    // Hacer una solicitud periódica para mantener el servidor activo
-    setInterval(() => {
-        fetch(url).catch((err) => {
-            console.error('Error en keepAlive:', err);
-        });
-    }, 5 * 1000 * 60); // Cada 5 minutos
 }
 
 export default connect;
