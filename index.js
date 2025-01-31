@@ -1,10 +1,8 @@
-console.log('@Aqua200☆');
-
 import { join, dirname } from 'path';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { setupMaster, fork } from 'cluster';
-import { watchFile, unwatchFile } from 'fs';
+import { watch, unwatchFile } from 'fs';
 import cfonts from 'cfonts';
 import { createInterface } from 'readline';
 import yargs from 'yargs';
@@ -31,6 +29,8 @@ say('Anika\nBot', {
 });
 
 let isRunning = false;
+let restartCount = 0;
+const maxRestarts = 5; // Límite de reinicios
 
 async function start(files) {
   if (isRunning) return;
@@ -71,12 +71,25 @@ async function start(files) {
     p.on('exit', (_, code) => {
       isRunning = false;
       console.error(chalk.red('Ocurrió un error inesperado:'), code);
+
+      if (restartCount >= maxRestarts) {
+        console.error(chalk.red('Se alcanzó el límite de reinicios. Deteniendo el bot...'));
+        process.exit(1); // Salir del proceso si se supera el límite
+      }
+
+      restartCount++;
+
+      // Reiniciar el proceso
       start(files);
 
       if (code === 0) return;
-      watchFile(args[0], () => {
-        unwatchFile(args[0]);
-        start(files);
+
+      // Usar fs.watch en lugar de fs.watchFile
+      const watcher = watch(args[0], (eventType, filename) => {
+        if (eventType === 'change') {
+          watcher.close(); // Cerrar el watcher antes de reiniciar
+          start(files);
+        }
       });
     });
 
