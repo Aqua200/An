@@ -87,9 +87,6 @@ global.loadDatabase = async function loadDatabase() {
 // Llamada inicial para cargar la base de datos
 loadDatabase().catch(console.error);
   
-    
-    
-
 global.authFile = `sessions`
 const {state, saveState, saveCreds} = await useMultiFileAuthState(global.authFile)
 const msgRetryCounterMap = (MessageRetryMap) => { };
