@@ -1,6 +1,6 @@
 {
-  "name": "onyxbot",
-  "version": "6.0.0",
+  "name": "Anika",
+  "version": "1.0.0",
   "description": "Super WhatsApp Bot Multi Device",
   "main": "index.js",
   "type": "module",
@@ -18,16 +18,16 @@
     "eslint": "eslint .",
     "eslintfix": "eslint --fix ."
   },
-  "homepage": "https://github.com/MatiasC-15/onyxbot-MD-renovado1",
+  "homepage": "https://github.com/Aqua200/An",
   "author": {
     "name": "@Aqua200"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MatiasC-15/onyxbot-MD-renovado1.git"
+    "url": "git+https://github.com/Aqua200/An"
   },
   "bugs": {
-    "url": "https://github.com/MatiasC-15/onyxbot-MD-renovado1/issues"
+    "url": "https://github.com/Aqua200/An/issues"
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
