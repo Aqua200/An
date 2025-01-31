@@ -336,9 +336,6 @@ if (connection === 'close') {
         conn.logger.warn(`Razón de desconexión desconocida. ${reason || ''}: ${connection || ''}`)
         await global.reloadHandler(true).catch(console.error)
     }
-}
-}
-
 process.on('uncaughtException', (err) => {
   console.error(chalk.red(`Error no manejado: ${err.message}`));
   console.error(chalk.red(`Stack trace: ${err.stack}`));
