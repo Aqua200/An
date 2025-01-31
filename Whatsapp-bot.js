@@ -75,7 +75,7 @@ global.loadDatabase = async function loadDatabase() {
   };
   global.db.chain = chain(global.db.data);
 };
-  }, 1 * 1000))
+  (}), 1 * 1000))
   if (global.db.data !== null) return
   global.db.READ = true
   await global.db.read().catch(console.error)
