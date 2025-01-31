@@ -274,15 +274,6 @@ async function connectionUpdate(update) {
     await global.reloadHandler(true).catch(console.error);
     global.timestamp.connect = new Date;
   }
-  if (global.db.data == null) loadDatabase();
-  if (update.qr != 0 && update.qr != undefined || methodCodeQR) {
-    if (opcion == '1' || methodCodeQR) {
-      console.log(chalk.yellow('Escanea el código QR.'));
-    }
-  }
-  if (connection == 'open') {
-    console.log(chalk.yellow('Conectado correctamente.'));
-  }
   let reason = new Boom(lastDisconnect?.error)?.output?.statusCode;
   if (reason == 405) {
     await fs.unlinkSync("./sessions/" + "creds.json");
