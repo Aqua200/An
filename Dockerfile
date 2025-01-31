@@ -1,19 +1,22 @@
-FROM node:lts-buster
+# Instalar Node.js (LTS)
+pkg install nodejs -y
 
-RUN apt-get update && \
-  apt-get install -y \
-  ffmpeg \
-  imagemagick \
-  webp && \
-  apt-get upgrade -y && \
-  rm -rf /var/lib/apt/lists/*
+# Instalar dependencias del sistema
+pkg install ffmpeg imagemagick webp -y
 
-COPY package.json .
+# Actualizar paquetes
+pkg upgrade -y
 
-RUN npm install && npm install qrcode-terminal
+# Clonar tu repositorio (si es necesario)
+git clone <tu-repositorio>
+cd <tu-repositorio>
 
-COPY . .
+# Instalar dependencias de Node.js
+npm install
+npm install qrcode-terminal
 
-EXPOSE 5000
+# Exponer el puerto (no es necesario en Termux, pero puedes usar el puerto 5000)
+# No hay equivalente directo a EXPOSE en Termux
 
-CMD ["node", "index.js", "--server"]
+# Ejecutar la aplicación
+node index.js --server
