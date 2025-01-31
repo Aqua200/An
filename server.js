@@ -1,51 +1,60 @@
-import express from 'express'
-import { createServer } from 'http'
-import path from 'path'
-import { Socket } from 'socket.io'
-import { toBuffer } from 'qrcode'
-import fetch from 'node-fetch'
+import express from 'express';
+import { createServer } from 'http';
+import { toBuffer } from 'qrcode';
+import fetch from 'node-fetch';
 
 function connect(conn, PORT) {
-    let app = global.app = express()
-    console.log(app)
-    let server = global.server = createServer(app)
-    let _qr = 'invalid'
+    let app = global.app = express();
+    let server = global.server = createServer(app);
+    let _qr = 'invalid';
 
+    // Escuchar eventos de actualización de conexión para generar el QR
     conn.ev.on('connection.update', function appQR({ qr }) {
-        if (qr) _qr = qr
-    })
+        if (qr) _qr = qr;
+    });
 
+    // Ruta para servir el código QR como una imagen PNG
     app.use(async (req, res) => {
-        res.setHeader('content-type', 'image/png')
-        res.end(await toBuffer(_qr))
-    })
-
-    server.listen(PORT, () => {
-        console.log('App listened on port', PORT)
-        if (opts['keepalive']) keepAlive()
-    })
-}
-
-function pipeEmit(event, event2, prefix = '') {
-    let old = event.emit
-    event.emit = function (event, ...args) {
-        old.emit(event, ...args)
-        event2.emit(prefix + event, ...args)
-    }
-    return {
-        unpipeEmit() {
-            event.emit = old
+        try {
+            res.setHeader('content-type', 'image/png');
+            res.end(await toBuffer(_qr));
+        } catch (error) {
+            console.error('Error al generar el código QR:', error);
+            res.status(500).send('Error al generar el código QR');
         }
+    });
+
+    // Iniciar el servidor en el puerto especificado
+    server.listen(PORT, () => {
+        console.log('Servidor escuchando en el puerto', PORT);
+    }).on('error', (err) => {
+        if (err.code === 'EADDRINUSE') {
+            console.error(`El puerto ${PORT} ya está en uso.`);
+        } else {
+            console.error('Error al iniciar el servidor:', err);
+        }
+    });
+}
+
+// Función para mantener el servidor activo (opcional)
+function keepAlive(url) {
+    if (!url) {
+        console.warn('No se proporcionó una URL para keepAlive.');
+        return;
     }
-}
 
-function keepAlive() {
-    const url = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
-    if (/(\/\/|\.)undefined\./.test(url)) return
+    // Verificar si la URL es válida
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        console.warn('La URL proporcionada para keepAlive no es válida.');
+        return;
+    }
+
+    // Hacer una solicitud periódica para mantener el servidor activo
     setInterval(() => {
-        fetch(url).catch(console.error)
-    }, 5 * 1000 * 60)
+        fetch(url).catch((err) => {
+            console.error('Error en keepAlive:', err);
+        });
+    }, 5 * 1000 * 60); // Cada 5 minutos
 }
 
-
-export default connect
+export default connect;
