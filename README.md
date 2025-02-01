@@ -1,3 +1,5 @@
+proyecto no terminado
+
 iniciar en termux 
 
 ```bash
