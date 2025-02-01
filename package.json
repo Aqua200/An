@@ -1,54 +1,54 @@
 {
-  "name": "Anika",
-  "version": "2.0.7",
-  "description": "Simple WhatsApp Bot Multi Device",
-  "main": "index.js",
-  "type": "module",
-  "botName": "Anika",
-  "directories": {
-    "lib": "lib",
-    "src": "src",
-    "plugins": "plugins"
-  },
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon --exec node index.js",
-    "qr": "node index.js qr",
-    "code": "node index.js code",
-    "test": "node test.js",
-    "lint": "eslint .",
-    "fix-lint": "eslint --fix ."
-  },
-  "homepage": "https://github.com/Aqua200/An",
-  "author": {
-    "name": "Aqua200"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Aqua200/An"
-  },
-  "bugs": {
-    "url": "https://github.com/Aqua200/An/issues"
-  },
-  "license": "GPL-3.0-or-later",
-  "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.8",
-    "axios": "^1.1.2",
-    "chalk": "^5.1.0",
-    "cheerio": "^1.0.0",
-    "cfonts": "^2.10.0",  // Agregado aquí
-    "express": "^4.18.1",
-    "fluent-ffmpeg": "^2.1.2",
-    "mongoose": "^6.6.5",
-    "node-fetch": "^3.2.10",
-    "qrcode": "^1.5.1",
-    "socket.io": "^4.5.2",
-    "uuid": "^10.0.0",
-    "yargs": "^17.6.0"
-  },
-  "optionalDependencies": {
-    "wa-sticker-formatter": "^4.3.2",
-    "moment-timezone": "^0.5.37",
-    "pino-pretty": "^9.1.1"
-  }
+     "name": "Anika",
+     "version": "2.0.7",
+     "description": "Simple WhatsApp Bot Multi Device",
+     "main": "index.js",
+     "type": "module",
+     "botName": "Anika",
+     "directories": {
+       "lib": "lib",
+       "src": "src",
+       "plugins": "plugins"
+     },
+     "scripts": {
+       "start": "node index.js",
+       "dev": "nodemon --exec node index.js",
+       "qr": "node index.js qr",
+       "code": "node index.js code",
+       "test": "node test.js",
+       "lint": "eslint .",
+       "fix-lint": "eslint --fix ."
+     },
+     "homepage": "https://github.com/Aqua200/An",
+     "author": {
+       "name": "Aqua200"
+     },
+     "repository": {
+       "type": "git",
+       "url": "git+https://github.com/Aqua200/An"
+     },
+     "bugs": {
+       "url": "https://github.com/Aqua200/An/issues"
+     },
+     "license": "GPL-3.0-or-later",
+     "dependencies": {
+       "@whiskeysockets/baileys": "^6.7.8",
+       "axios": "^1.1.2",
+       "chalk": "^5.1.0",
+       "cheerio": "^1.0.0",
+       "cfonts": "^2.10.0",
+       "express": "^4.18.1",
+       "fluent-ffmpeg": "^2.1.2",
+       "mongoose": "^6.6.5",
+       "node-fetch": "^3.2.10",
+       "qrcode": "^1.5.1",
+       "socket.io": "^4.5.2",
+       "uuid": "^10.0.0",
+       "yargs": "^17.6.0"
+     },
+     "optionalDependencies": {
+       "wa-sticker-formatter": "^4.3.2",
+       "moment-timezone": "^0.5.37",
+       "pino-pretty": "^9.1.1"
+     }
 }
