@@ -50,20 +50,24 @@ global.db.data = {
 
 // Cargar base de datos
 async function loadDatabase() {
-  if (global.db.data === null) {
-    global.db.READ = true;
-    await global.db.read();
-    global.db.READ = null;
-    global.db.data = global.db.data || {
-      users: {},
-      chats: {},
-      stats: {},
-      msgs: {},
-      sticker: {},
-      settings: {},
-    };
+  try {
+    if (global.db.data === null) {
+      global.db.READ = true;
+      await global.db.read();
+      global.db.READ = null;
+      global.db.data = global.db.data || {
+        users: {},
+        chats: {},
+        stats: {},
+        msgs: {},
+        sticker: {},
+        settings: {},
+      };
+    }
+    global.db.chain = lodash.chain(global.db.data);
+  } catch (error) {
+    logger.error('Error al cargar la base de datos:', error);
   }
-  global.db.chain = lodash.chain(global.db.data);
 }
 
 // Conexión WhatsApp
@@ -89,29 +93,41 @@ global.conn = makeWASocket(connectionOptions);
 
 // Funciones auxiliares
 function clearTmp() {
-  const tmpDir = join(__dirname, 'tmp');
-  readdirSync(tmpDir).forEach((file) => {
-    const filePath = join(tmpDir, file);
-    const stats = statSync(filePath);
-    if (stats.isFile() && (Date.now() - stats.mtimeMs >= 180000)) {
-      unlinkSync(filePath);
-    }
-  });
+  try {
+    const tmpDir = join(__dirname, 'tmp');
+    readdirSync(tmpDir).forEach((file) => {
+      const filePath = join(tmpDir, file);
+      const stats = statSync(filePath);
+      if (stats.isFile() && (Date.now() - stats.mtimeMs >= 180000)) {
+        unlinkSync(filePath);
+      }
+    });
+  } catch (error) {
+    logger.error('Error al limpiar archivos temporales:', error);
+  }
 }
 
 function purgeSession() {
-  const preKeys = readdirSync('./sessions').filter((file) => file.startsWith('pre-key-'));
-  preKeys.forEach((file) => unlinkSync(`./sessions/${file}`));
+  try {
+    const preKeys = readdirSync('./sessions').filter((file) => file.startsWith('pre-key-'));
+    preKeys.forEach((file) => unlinkSync(`./sessions/${file}`));
+  } catch (error) {
+    logger.error('Error al purgar sesiones:', error);
+  }
 }
 
 async function connectionUpdate(update) {
-  const { connection, lastDisconnect } = update;
-  if (connection === 'open') {
-    logger.info('Conectado correctamente.');
-  } else if (connection === 'close') {
-    if (lastDisconnect?.error?.output?.statusCode === DisconnectReason.loggedOut) {
-      logger.error('Sesión cerrada, elimina la carpeta "sessions" y vuelve a escanear el QR.');
+  try {
+    const { connection, lastDisconnect } = update;
+    if (connection === 'open') {
+      logger.info('Conectado correctamente.');
+    } else if (connection === 'close') {
+      if (lastDisconnect?.error?.output?.statusCode === DisconnectReason.loggedOut) {
+        logger.error('Sesión cerrada, elimina la carpeta "sessions" y vuelve a escanear el QR.');
+      }
     }
+  } catch (error) {
+    logger.error('Error en la actualización de la conexión:', error);
   }
 }
 
@@ -128,8 +144,12 @@ setInterval(purgeSession, 3600000);
 
 // Función principal
 async function main() {
-  // Código principal aquí
-  console.log('Bot de WhatsApp iniciado...');
+  try {
+    // Código principal aquí
+    console.log('Bot de WhatsApp iniciado...');
+  } catch (error) {
+    logger.error('Error en la función principal:', error);
+  }
 }
 
 main().catch((err) => logger.error(err));
