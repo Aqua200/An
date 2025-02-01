@@ -46,7 +46,8 @@
     "uuid": "^10.0.0",
     "yargs": "^17.6.0",
     "syntax-error": "^1.4.0",
-    "lowdb": "^6.0.0"
+    "lowdb": "^6.0.0",
+    "google-libphonenumber": "^3.2.31"  // Paquete agregado
   },
   "optionalDependencies": {
     "wa-sticker-formatter": "^4.3.2",
