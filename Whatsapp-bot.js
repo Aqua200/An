@@ -17,6 +17,7 @@ import { useMultiFileAuthState, DisconnectReason, jidNormalizedUser } from '@whi
 import pkg from 'google-libphonenumber';
 import { tmpdir } from 'os';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 const { PhoneNumberUtil } = pkg;
 const phoneUtil = PhoneNumberUtil.getInstance();
@@ -30,8 +31,14 @@ const __dirname = dirname(__filename);
 // Configuración de logger
 const logger = P({ level: 'silent' });
 
+// Procesar argumentos con yargs
+const args = yargs(hideBin(process.argv)).argv;
+
+// Verificar que args._ existe y tiene al menos un elemento
+const dbFileName = args._ && args._.length > 0 ? args._[0] + '_' : '';
+
 // Base de datos
-global.db = new Low(new JSONFile(`${yargs.argv._[0] ? yargs.argv._[0] + '_' : ''}database.json`));
+global.db = new Low(new JSONFile(`${dbFileName}database.json`));
 global.db.data = {
   users: {},
   chats: {},
