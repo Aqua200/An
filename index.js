@@ -104,7 +104,7 @@ async function start(files) {
 }
 
 // Iniciar el bot
-start(['Whatsapp-bot.js']);
+start(['Xi_Crew.js']);
 
 // Manejo de cierre limpio
 process.on('SIGINT', () => {
