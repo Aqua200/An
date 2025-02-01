@@ -80,11 +80,26 @@ global.db.chain = chain(global.db.data)
 }
 loadDatabase()
 
-const {state, saveState, saveCreds} = await useMultiFileAuthState(global.sessions)
-const msgRetryCounterMap = (MessageRetryMap) => { };
-const msgRetryCounterCache = new NodeCache()
-const {version} = await fetchLatestBaileysVersion();
-let phoneNumber = global.botNumberCode
+// Verificación de las variables globales
+if (!global.sessions) {
+    console.error("La ruta de sesiones no está definida.");
+    return;
+}
+
+if (!global.botNumberCode) {
+    console.error("El número de bot no está definido.");
+    return;
+}
+
+try {
+    const {state, saveState, saveCreds} = await useMultiFileAuthState(global.sessions);
+    const msgRetryCounterMap = (MessageRetryMap) => { };
+    const msgRetryCounterCache = new NodeCache();
+    const {version} = await fetchLatestBaileysVersion();
+    let phoneNumber = global.botNumberCode;
+} catch (error) {
+    console.error("Error al cargar el estado de autenticación:", error);
+}
 
 const methodCodeQR = process.argv.includes("qr")
 const methodCode = !!phoneNumber || process.argv.includes("code")
