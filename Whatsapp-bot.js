@@ -9,7 +9,8 @@ import P from 'pino';
 import lodash from 'lodash';
 import chalk from 'chalk';
 import syntaxerror from 'syntax-error';
-import { Low, JSONFile } from 'lowdb';
+import { Low } from 'lowdb';
+import { JSONFileSync } from 'lowdb/adapters/JSONFileSync';  // Importar el adaptador adecuado
 import { makeWASocket, protoType, serialize } from './lib/simple.js';
 import { mongoDB, mongoDBV2 } from './lib/mongoDB.js';
 import store from './lib/store.js';
@@ -38,7 +39,7 @@ const args = yargs(hideBin(process.argv)).argv;
 const dbFileName = args._ && args._.length > 0 ? args._[0] + '_' : '';
 
 // Base de datos
-global.db = new Low(new JSONFile(`${dbFileName}database.json`));
+global.db = new Low(new JSONFileSync(`${dbFileName}database.json`));  // Usamos el adaptador correcto
 global.db.data = {
   users: {},
   chats: {},
