@@ -17,7 +17,12 @@
     "code": "node index.js code",
     "test": "node test.js",
     "lint": "eslint .",
-    "fix-lint": "eslint --fix ."
+    "fix-lint": "eslint --fix .",
+    "prettify": "prettier --write .",
+    "build": "npm run lint && npm run fix-lint && npm run prettify",
+    "update-deps": "npm update",
+    "install-dev": "npm install --only=dev",
+    "install-prod": "npm install --only=prod"
   },
   "homepage": "https://github.com/Aqua200/An",
   "author": {
@@ -31,6 +36,10 @@
     "url": "https://github.com/Aqua200/An/issues"
   },
   "license": "GPL-3.0-or-later",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "browserslist": "> 0.2%, not dead, not ie 11, not op_mini all",
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.8",
     "axios": "^1.1.2",
@@ -48,7 +57,7 @@
     "syntax-error": "^1.4.0",
     "lowdb": "^6.0.0",
     "google-libphonenumber": "^3.2.31",
-    "awesome-phonenumber": "^3.6.0",  
+    "awesome-phonenumber": "^3.6.0"
   },
   "optionalDependencies": {
     "wa-sticker-formatter": "^4.3.2",
