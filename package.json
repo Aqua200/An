@@ -36,6 +36,7 @@
     "axios": "^1.1.2",
     "chalk": "^5.1.0",
     "cheerio": "^1.0.0",
+    "cfonts": "^2.10.0",  // Agregado aquí
     "express": "^4.18.1",
     "fluent-ffmpeg": "^2.1.2",
     "mongoose": "^6.6.5",
