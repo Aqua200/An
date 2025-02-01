@@ -43,3 +43,6 @@ el bot como tal esta echo para soportar termux por lo tanto para actualizar los 
 git pull origin main
 ```
 
+``` buscar el archivo que ocasiona el error
+grep -r "def" .
+```
